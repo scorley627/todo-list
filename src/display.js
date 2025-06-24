@@ -1,17 +1,25 @@
 export default (function () {
-  function showInitialTodo(initialTodo) {
+  function showInitialList(initialList) {
     const initialTodoList = document.createElement("ul");
-    const initialTodoItem = document.createElement("li");
-    const initialItemTitle = document.createElement("h2");
-    const initialItemDescription = document.createElement("p");
+    const initialListTitle = document.createElement("h2");
 
-    initialItemDescription.textContent = initialTodo.description;
-    initialItemTitle.textContent = initialTodo.title;
-    initialTodoItem.appendChild(initialItemTitle);
-    initialTodoItem.appendChild(initialItemDescription);
-    initialTodoList.appendChild(initialTodoItem);
+    initialListTitle.textContent = initialList.title;
+    initialTodoList.appendChild(initialListTitle);
+
+    for (const item of initialList.todoItems) {
+      const todoItem = document.createElement("li");
+      const itemTitle = document.createElement("h3");
+      const itemDescription = document.createElement("p");
+
+      itemTitle.textContent = item.title;
+      itemDescription.textContent = item.description;
+      todoItem.appendChild(itemTitle);
+      todoItem.appendChild(itemDescription);
+      initialTodoList.appendChild(todoItem);
+    }
+
     document.body.appendChild(initialTodoList);
   }
 
-  return { showInitialTodo };
+  return { showInitialList };
 })();

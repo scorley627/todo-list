@@ -1,21 +1,32 @@
 import "./style.css";
 import DisplayController from "./display.js";
 
-const makeTodoItem = (title, description, dueDate) => {
-  let state = {
-    title,
-    description,
-    dueDate,
-    priority: 1,
-  };
+class TodoItem {
+  constructor(title, description, dueDate) {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.priority = 1;
+  }
+}
 
-  return state;
-};
+class TodoList {
+  constructor(title) {
+    this.title = title;
+    this.todoItems = [];
+  }
 
-const initialTodo = makeTodoItem(
+  appendItem(item) {
+    this.todoItems.push(item);
+  }
+}
+
+const initialList = new TodoList("Initial List");
+const initialTodo = new TodoItem(
   "Initial Item",
   "This is the initial todo item",
   "09/15/2025"
 );
+initialList.appendItem(initialTodo);
 
-DisplayController.showInitialTodo(initialTodo);
+DisplayController.showInitialList(initialList);
