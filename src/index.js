@@ -21,12 +21,26 @@ class TodoList {
   }
 }
 
-const initialList = new TodoList("Initial List");
-const initialTodo = new TodoItem(
-  "Initial Item",
-  "This is the initial todo item",
-  "09/15/2025"
+const initialList = new TodoList("Todo List");
+initialList.appendItem(
+  new TodoItem(
+    "Initial Item 1",
+    "This is the first initial todo item",
+    "09/15/2025"
+  )
 );
-initialList.appendItem(initialTodo);
-
+initialList.appendItem(
+  new TodoItem(
+    "Initial Item 2",
+    "This is the second initial todo item",
+    "09/15/2025"
+  )
+);
+initialList.appendItem(
+  new TodoItem(
+    "Initial Item 3",
+    "This is the third initial todo item",
+    "09/15/2025"
+  )
+);
 DisplayController.showInitialList(initialList);

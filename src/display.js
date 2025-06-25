@@ -1,24 +1,46 @@
 export default (function () {
-  function showInitialList(initialList) {
-    const initialTodoList = document.createElement("ul");
-    const initialListTitle = document.createElement("h2");
+  function showInitialList(list) {
+    const listElement = document.createElement("ul");
+    const listHeader = document.createElement("h2");
 
-    initialListTitle.textContent = initialList.title;
-    initialTodoList.appendChild(initialListTitle);
+    listHeader.textContent = list.title;
+    listElement.appendChild(listHeader);
+    listElement.classList.add("todo-list");
 
-    for (const item of initialList.todoItems) {
-      const todoItem = document.createElement("li");
-      const itemTitle = document.createElement("h3");
-      const itemDescription = document.createElement("p");
+    for (const item of list.todoItems) {
+      const itemElement = document.createElement("li");
+      const itemHeader = document.createElement("h3");
+      const itemParagraph = document.createElement("p");
 
-      itemTitle.textContent = item.title;
-      itemDescription.textContent = item.description;
-      todoItem.appendChild(itemTitle);
-      todoItem.appendChild(itemDescription);
-      initialTodoList.appendChild(todoItem);
+      itemHeader.textContent = item.title;
+      itemParagraph.textContent = item.description;
+
+      itemElement.classList.add("todo-item");
+      itemHeader.classList.add("todo-item__title");
+      itemParagraph.classList.add("todo-item__description");
+
+      itemElement.appendChild(itemHeader);
+      itemElement.appendChild(itemParagraph);
+      listElement.appendChild(itemElement);
     }
 
-    document.body.appendChild(initialTodoList);
+    const addItemElement = document.createElement("li");
+    const addItemButton = document.createElement("button");
+    const addItemHeader = document.createElement("h3");
+
+    addItemButton.textContent = "+";
+    addItemHeader.textContent = "Add task";
+
+    addItemElement.classList.add("todo-item");
+    addItemElement.classList.add("todo-item--add");
+    addItemButton.classList.add("todo-item__add-button");
+    addItemHeader.classList.add("todo-item__title");
+    addItemHeader.classList.add("todo-item__title--add");
+
+    addItemElement.appendChild(addItemButton);
+    addItemElement.appendChild(addItemHeader);
+    listElement.appendChild(addItemElement);
+    document.body.appendChild(listElement);
   }
 
   return { showInitialList };
