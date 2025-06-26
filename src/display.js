@@ -1,59 +1,91 @@
-export default (function () {
-  const addItemDialog = document.querySelector(".add-item-dialog");
+import ListController from "./todo_list";
 
-  function showList(list) {
-    const listElement = document.createElement("ul");
-    const listHeader = document.createElement("h2");
+const addItemDialog = document.querySelector(".add-item-dialog");
+addItemDialog.addEventListener("click", handleAddDialogClick);
 
-    listHeader.textContent = list.title;
-    listElement.appendChild(listHeader);
-    listElement.classList.add("todo-list");
+const addItemForm = document.querySelector(".add-item-form");
+addItemForm.addEventListener("submit", handleAddFormSubmit);
 
-    for (const item of list.todoItems) {
-      const itemElement = document.createElement("li");
-      const itemHeader = document.createElement("h3");
-      const itemParagraph = document.createElement("p");
+showList(ListController.list);
 
-      itemHeader.textContent = item.title;
-      itemParagraph.textContent = item.description;
+function showList(list) {
+  const listElement = document.createElement("ul");
+  const listHeader = document.createElement("h2");
 
-      itemElement.classList.add("todo-item");
-      itemHeader.classList.add("todo-item__title");
-      itemParagraph.classList.add("todo-item__description");
+  listHeader.textContent = list.title;
+  listElement.appendChild(listHeader);
+  listElement.classList.add("todo-list");
 
-      itemElement.appendChild(itemHeader);
-      itemElement.appendChild(itemParagraph);
-      listElement.appendChild(itemElement);
-    }
+  for (const item of list.todoItems) {
+    const itemElement = document.createElement("li");
+    const itemHeader = document.createElement("h3");
+    const itemParagraph = document.createElement("p");
 
-    const addItemElement = document.createElement("li");
-    const addItemButton = document.createElement("button");
-    const addItemHeader = document.createElement("h3");
+    itemHeader.textContent = item.title;
+    itemParagraph.textContent = item.description;
 
-    addItemButton.textContent = "+";
-    addItemHeader.textContent = "Add task";
+    itemElement.classList.add("todo-item");
+    itemHeader.classList.add("todo-item__title");
+    itemParagraph.classList.add("todo-item__description");
 
-    addItemElement.classList.add("todo-item");
-    addItemElement.classList.add("todo-item--add");
-    addItemButton.classList.add("todo-item__add-button");
-    addItemHeader.classList.add("todo-item__title");
-    addItemHeader.classList.add("todo-item__title--add");
-
-    addItemElement.appendChild(addItemButton);
-    addItemElement.appendChild(addItemHeader);
-    listElement.appendChild(addItemElement);
-
-    const content = document.querySelector(".content");
-    content.replaceChildren(listElement);
+    itemElement.appendChild(itemHeader);
+    itemElement.appendChild(itemParagraph);
+    listElement.appendChild(itemElement);
   }
 
-  function showNewItemDialog() {
-    addItemDialog.showModal();
-  }
+  const addItemElement = document.createElement("li");
+  const addItemButton = document.createElement("button");
+  const addItemHeader = document.createElement("h3");
 
-  function closeNewItemDialog() {
-    addItemDialog.close();
-  }
+  addItemButton.textContent = "+";
+  addItemHeader.textContent = "Add task";
 
-  return { showList, showNewItemDialog, closeNewItemDialog };
-})();
+  addItemElement.classList.add("todo-item");
+  addItemElement.classList.add("todo-item--add");
+  addItemButton.classList.add("todo-item__add-button");
+  addItemHeader.classList.add("todo-item__title");
+  addItemHeader.classList.add("todo-item__title--add");
+
+  addItemElement.appendChild(addItemButton);
+  addItemElement.appendChild(addItemHeader);
+  addItemElement.addEventListener("click", handleAddItemClick);
+
+  listElement.appendChild(addItemElement);
+  const content = document.querySelector(".content");
+  content.replaceChildren(listElement);
+}
+
+function showNewItemDialog() {
+  addItemDialog.showModal();
+}
+
+function closeNewItemDialog() {
+  addItemDialog.close();
+}
+
+function handleAddItemClick(event) {
+  const isButton = event.target.classList.contains("todo-item__add-button");
+  const isTitle = event.target.classList.contains("todo-item__title--add");
+  if (isButton || isTitle) {
+    showNewItemDialog();
+  }
+}
+
+function handleAddDialogClick(event) {
+  if (event.target.classList.contains("add-item-dialog__close-button")) {
+    closeNewItemDialog();
+  }
+}
+
+function handleAddFormSubmit(event) {
+  event.preventDefault();
+  closeNewItemDialog();
+
+  const formData = new FormData(event.target);
+  const title = formData.get("new_item_title");
+  const description = formData.get("new_item_description");
+  const date = formData.get("new_item_date");
+
+  ListController.addNewItem(title, description, date);
+  showList(ListController.list);
+}
