@@ -1,5 +1,7 @@
 export default (function () {
-  function showInitialList(list) {
+  const addItemDialog = document.querySelector(".add-item-dialog");
+
+  function showList(list) {
     const listElement = document.createElement("ul");
     const listHeader = document.createElement("h2");
 
@@ -40,8 +42,18 @@ export default (function () {
     addItemElement.appendChild(addItemButton);
     addItemElement.appendChild(addItemHeader);
     listElement.appendChild(addItemElement);
-    document.body.appendChild(listElement);
+
+    const content = document.querySelector(".content");
+    content.replaceChildren(listElement);
   }
 
-  return { showInitialList };
+  function showNewItemDialog() {
+    addItemDialog.showModal();
+  }
+
+  function closeNewItemDialog() {
+    addItemDialog.close();
+  }
+
+  return { showList, showNewItemDialog, closeNewItemDialog };
 })();
