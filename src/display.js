@@ -7,9 +7,10 @@ const addItemForm = document.querySelector(".add-item-form");
 addItemDialog.addEventListener("click", handleAddDialogClick);
 addItemForm.addEventListener("submit", handleAddFormSubmit);
 
-showList(ListController.list);
+showList();
 
-function showList(list) {
+function showList() {
+  const list = ListController.list;
   const listElement = document.createElement("ul");
   const listHeader = document.createElement("h2");
 
@@ -29,11 +30,13 @@ function showList(list) {
     itemHeader.textContent = item.title;
     itemParagraph.textContent = item.description;
     itemTrashImage.src = trashIcon;
+    itemTrashImage.dataset.itemId = item.id;
 
     itemElement.classList.add("todo-item");
     itemText.classList.add("todo-item__text");
     itemParagraph.classList.add("todo-item__description");
     itemTrashImage.classList.add("todo-item__trash-icon");
+    itemTrashImage.addEventListener("click", handleDeleteItemClick);
 
     itemText.appendChild(itemHeader);
     itemText.appendChild(itemParagraph);
@@ -87,7 +90,13 @@ function handleAddFormSubmit(event) {
   const title = formData.get("new_item_title");
   const description = formData.get("new_item_description");
   const date = formData.get("new_item_date");
+  event.target.reset();
 
   ListController.addNewItem(title, description, date);
-  showList(ListController.list);
+  showList();
+}
+
+function handleDeleteItemClick(event) {
+  ListController.removeItem(event.target.dataset.itemId);
+  showList();
 }

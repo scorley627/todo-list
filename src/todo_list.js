@@ -4,6 +4,7 @@ class TodoItem {
     this.description = description;
     this.dueDate = dueDate;
     this.priority = 1;
+    this.id = crypto.randomUUID();
   }
 }
 
@@ -15,6 +16,14 @@ class TodoList {
 
   appendItem(item) {
     this.todoItems.push(item);
+  }
+
+  removeItem(id) {
+    let index = 0;
+    while (this.todoItems[index].id != id) {
+      ++index;
+    }
+    this.todoItems.splice(index, 1);
   }
 }
 
@@ -47,5 +56,9 @@ export default (function () {
     list.appendItem(newItem);
   }
 
-  return { list, addNewItem };
+  function removeItem(id) {
+    list.removeItem(id);
+  }
+
+  return { list, addNewItem, removeItem };
 })();
