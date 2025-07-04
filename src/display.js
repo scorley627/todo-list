@@ -1,4 +1,5 @@
 import ListController from "./todo_list";
+import trashIcon from "./trash_icon.svg";
 
 const addItemDialog = document.querySelector(".add-item-dialog");
 const addItemForm = document.querySelector(".add-item-form");
@@ -18,18 +19,28 @@ function showList(list) {
 
   for (const item of list.todoItems) {
     const itemElement = document.createElement("li");
+    const itemCheckbox = document.createElement("input");
+    const itemText = document.createElement("div");
     const itemHeader = document.createElement("h3");
     const itemParagraph = document.createElement("p");
+    const itemTrashImage = document.createElement("img");
 
+    itemCheckbox.type = "checkbox";
     itemHeader.textContent = item.title;
     itemParagraph.textContent = item.description;
+    itemTrashImage.src = trashIcon;
 
     itemElement.classList.add("todo-item");
-    itemHeader.classList.add("todo-item__title");
+    itemText.classList.add("todo-item__text");
     itemParagraph.classList.add("todo-item__description");
+    itemTrashImage.classList.add("todo-item__trash-icon");
 
-    itemElement.appendChild(itemHeader);
-    itemElement.appendChild(itemParagraph);
+    itemText.appendChild(itemHeader);
+    itemText.appendChild(itemParagraph);
+
+    itemElement.appendChild(itemCheckbox);
+    itemElement.appendChild(itemText);
+    itemElement.appendChild(itemTrashImage);
     listElement.appendChild(itemElement);
   }
 
@@ -41,10 +52,9 @@ function showList(list) {
   addItemHeader.textContent = "Add task";
 
   addItemElement.classList.add("todo-item");
-  addItemElement.classList.add("todo-item--add");
   addItemButton.classList.add("todo-item__add-button");
-  addItemHeader.classList.add("todo-item__title");
-  addItemHeader.classList.add("todo-item__title--add");
+  addItemHeader.classList.add("todo-item__text");
+  addItemHeader.classList.add("todo-item__text--add");
 
   addItemElement.appendChild(addItemButton);
   addItemElement.appendChild(addItemHeader);
@@ -57,7 +67,7 @@ function showList(list) {
 
 function handleAddItemClick(event) {
   const isButton = event.target.classList.contains("todo-item__add-button");
-  const isTitle = event.target.classList.contains("todo-item__title--add");
+  const isTitle = event.target.classList.contains("todo-item__text--add");
   if (isButton || isTitle) {
     addItemDialog.showModal();
   }
