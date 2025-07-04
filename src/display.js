@@ -1,9 +1,9 @@
 import ListController from "./todo_list";
 
 const addItemDialog = document.querySelector(".add-item-dialog");
-addItemDialog.addEventListener("click", handleAddDialogClick);
-
 const addItemForm = document.querySelector(".add-item-form");
+
+addItemDialog.addEventListener("click", handleAddDialogClick);
 addItemForm.addEventListener("submit", handleAddFormSubmit);
 
 showList(ListController.list);
@@ -55,31 +55,23 @@ function showList(list) {
   content.replaceChildren(listElement);
 }
 
-function showNewItemDialog() {
-  addItemDialog.showModal();
-}
-
-function closeNewItemDialog() {
-  addItemDialog.close();
-}
-
 function handleAddItemClick(event) {
   const isButton = event.target.classList.contains("todo-item__add-button");
   const isTitle = event.target.classList.contains("todo-item__title--add");
   if (isButton || isTitle) {
-    showNewItemDialog();
+    addItemDialog.showModal();
   }
 }
 
 function handleAddDialogClick(event) {
   if (event.target.classList.contains("add-item-dialog__close-button")) {
-    closeNewItemDialog();
+    addItemDialog.close();
   }
 }
 
 function handleAddFormSubmit(event) {
   event.preventDefault();
-  closeNewItemDialog();
+  addItemDialog.close();
 
   const formData = new FormData(event.target);
   const title = formData.get("new_item_title");
