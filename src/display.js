@@ -3,8 +3,11 @@ import trashIcon from "./trash_icon.svg";
 
 const addItemDialog = document.querySelector(".add-item-dialog");
 const addItemForm = document.querySelector(".add-item-form");
+const dialogCloseButton = document.querySelector(
+  ".add-item-dialog__close-button"
+);
 
-addItemDialog.addEventListener("click", handleAddDialogClick);
+dialogCloseButton.addEventListener("click", handleCloseDialogClick);
 addItemForm.addEventListener("submit", handleAddFormSubmit);
 
 showList();
@@ -76,10 +79,8 @@ function handleAddItemClick(event) {
   }
 }
 
-function handleAddDialogClick(event) {
-  if (event.target.classList.contains("add-item-dialog__close-button")) {
-    addItemDialog.close();
-  }
+function handleCloseDialogClick(event) {
+  addItemDialog.close();
 }
 
 function handleAddFormSubmit(event) {
