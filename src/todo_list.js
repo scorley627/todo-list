@@ -1,64 +1,27 @@
-class TodoItem {
-  constructor(title, description, dueDate) {
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = 1;
-    this.id = crypto.randomUUID();
-  }
-}
+export const todoList = {
+  tasks: [createTask("Task", "Task description", "09/15/2025")],
+  title: "Todo List",
 
-class TodoList {
-  constructor(title) {
-    this.title = title;
-    this.todoItems = [];
-  }
+  addNewTask: function (title, description, date) {
+    const newTask = createTask(title, description, date);
+    this.tasks.push(newTask);
+  },
 
-  appendItem(item) {
-    this.todoItems.push(item);
-  }
-
-  removeItem(id) {
-    let index = 0;
-    while (this.todoItems[index].id != id) {
-      ++index;
+  removeTask: function (id) {
+    let i = 0;
+    while (this.tasks[i].id != id) {
+      ++i;
     }
-    this.todoItems.splice(index, 1);
-  }
+    this.tasks.splice(i, 1);
+  },
+};
+
+function createTask(title, description, dueDate) {
+  return {
+    title: title,
+    description: description,
+    dueDate: dueDate,
+    priority: 1,
+    id: crypto.randomUUID(),
+  };
 }
-
-export default (function () {
-  const list = new TodoList("Todo List");
-  list.appendItem(
-    new TodoItem(
-      "Initial Item 1",
-      "This is the first initial todo item",
-      "09/15/2025"
-    )
-  );
-  list.appendItem(
-    new TodoItem(
-      "Initial Item 2",
-      "This is the second initial todo item",
-      "09/15/2025"
-    )
-  );
-  list.appendItem(
-    new TodoItem(
-      "Initial Item 3",
-      "This is the third initial todo item",
-      "09/15/2025"
-    )
-  );
-
-  function addNewItem(title, description, date) {
-    const newItem = new TodoItem(title, description, date);
-    list.appendItem(newItem);
-  }
-
-  function removeItem(id) {
-    list.removeItem(id);
-  }
-
-  return { list, addNewItem, removeItem };
-})();

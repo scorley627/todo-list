@@ -1,10 +1,10 @@
-import ListController from "./todo_list";
+import { todoList } from "./todo_list";
 import trashIcon from "./trash_icon.svg";
 
 const addItemDialog = document.querySelector(".add-item-dialog");
 const addItemForm = document.querySelector(".add-item-form");
 const dialogCloseButton = document.querySelector(
-  ".add-item-dialog__close-button"
+  ".add-item-dialog__close-button",
 );
 
 dialogCloseButton.addEventListener("click", handleCloseDialogClick);
@@ -13,15 +13,14 @@ addItemForm.addEventListener("submit", handleAddFormSubmit);
 showList();
 
 function showList() {
-  const list = ListController.list;
   const listElement = document.createElement("ul");
   const listHeader = document.createElement("h2");
 
-  listHeader.textContent = list.title;
+  listHeader.textContent = todoList.title;
   listElement.appendChild(listHeader);
   listElement.classList.add("todo-list");
 
-  for (const item of list.todoItems) {
+  for (const task of todoList.tasks) {
     const itemElement = document.createElement("li");
     const itemCheckbox = document.createElement("input");
     const itemText = document.createElement("div");
@@ -30,10 +29,10 @@ function showList() {
     const itemTrashImage = document.createElement("img");
 
     itemCheckbox.type = "checkbox";
-    itemHeader.textContent = item.title;
-    itemParagraph.textContent = item.description;
+    itemHeader.textContent = task.title;
+    itemParagraph.textContent = task.description;
     itemTrashImage.src = trashIcon;
-    itemTrashImage.dataset.itemId = item.id;
+    itemTrashImage.dataset.itemId = task.id;
 
     itemElement.classList.add("todo-item");
     itemText.classList.add("todo-item__text");
@@ -93,11 +92,11 @@ function handleAddFormSubmit(event) {
   const date = formData.get("new_item_date");
   event.target.reset();
 
-  ListController.addNewItem(title, description, date);
+  todoList.addNewTask(title, description, date);
   showList();
 }
 
 function handleDeleteItemClick(event) {
-  ListController.removeItem(event.target.dataset.itemId);
+  todoList.removeTask(event.target.dataset.itemId);
   showList();
 }
