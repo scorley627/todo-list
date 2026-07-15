@@ -1,6 +1,6 @@
 export const todoList = {
-  tasks: [createTask("Task", "Task description", "09/15/2025")],
-  title: "Todo List",
+  tasks: [],
+  title: "",
 
   addNewTask: function (title, description, date) {
     const newTask = createTask(title, description, date);

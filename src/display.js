@@ -1,18 +1,7 @@
 import { todoList } from "./todo_list";
 import trashIcon from "./trash_icon.svg";
 
-const addItemDialog = document.querySelector(".add-item-dialog");
-const addItemForm = document.querySelector(".add-item-form");
-const dialogCloseButton = document.querySelector(
-  ".add-item-dialog__close-button",
-);
-
-dialogCloseButton.addEventListener("click", handleCloseDialogClick);
-addItemForm.addEventListener("submit", handleAddFormSubmit);
-
-showList();
-
-function showList() {
+export function showList() {
   const listElement = document.createElement("ul");
   const listHeader = document.createElement("h2");
 
@@ -78,10 +67,6 @@ function handleAddItemClick(event) {
   }
 }
 
-function handleCloseDialogClick(event) {
-  addItemDialog.close();
-}
-
 function handleAddFormSubmit(event) {
   event.preventDefault();
   addItemDialog.close();
@@ -96,7 +81,21 @@ function handleAddFormSubmit(event) {
   showList();
 }
 
+function handleCloseDialogClick(event) {
+  addItemDialog.close();
+}
+
 function handleDeleteItemClick(event) {
   todoList.removeTask(event.target.dataset.itemId);
   showList();
 }
+
+const addItemDialog = document.querySelector(".add-item-dialog");
+
+const dialogCloseButton = document.querySelector(
+  ".add-item-dialog__close-button",
+);
+dialogCloseButton.addEventListener("click", handleCloseDialogClick);
+
+const addItemForm = document.querySelector(".add-item-form");
+addItemForm.addEventListener("submit", handleAddFormSubmit);
