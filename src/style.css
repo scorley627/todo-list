@@ -6,34 +6,50 @@
 .todo-list {
   margin: 60px 40px;
   display: grid;
-  gap: 8px;
 }
 
-.todo-item {
-  border-top: 2px solid rgb(196, 196, 196);
-  padding: 8px 8px 0px;
+.todo-list__header {
+  padding-bottom: 8px;
+}
+
+.task {
+  border-top: 2px solid rgb(133, 133, 133);
+  padding: 8px;
   display: flex;
 }
 
-.todo-item__text {
+.task--medium-priority {
+  background-color: yellow;
+}
+
+.task--high-priority {
+  background-color: orange;
+}
+
+.task__text {
   margin-left: 12px;
 }
 
-.todo-item__description {
+.task__description {
   margin-top: 4px;
 }
 
-.todo-item__trash-icon {
+.task__date {
   margin-left: auto;
   align-self: center;
 }
 
-.todo-item__text--add {
-  color: gray;
+.task__trash-icon {
+  margin-left: 12px;
+  align-self: center;
+}
+
+.task__text--add {
+  color: rgb(133, 133, 133);
   cursor: default;
 }
 
-.todo-item__add-button {
+.task__add-button {
   background-color: inherit;
   border: none;
   font-size: 25px;
@@ -42,7 +58,7 @@
   bottom: 5px;
 }
 
-.add-item-dialog {
+.add-task-dialog {
   width: 600px;
   height: 300px;
   position: fixed;
@@ -53,11 +69,11 @@
   border-radius: 25px;
 }
 
-.add-item-dialog::backdrop {
+.add-task-dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
-.add-item-dialog__close-button {
+.add-task-dialog__close-button {
   background-color: inherit;
   position: absolute;
   top: 16px;
@@ -67,7 +83,7 @@
   color: gray;
 }
 
-.add-item-dialog__submit-button {
+.add-task-dialog__submit-button {
   background-color: rgb(0, 179, 0);
   position: absolute;
   bottom: 32px;
@@ -80,18 +96,18 @@
   border-radius: 10px;
 }
 
-.add-item-form {
+.add-task-form {
   padding: 32px 24px;
   display: grid;
   grid-template-columns: min-content 1fr;
   gap: 12px;
 }
 
-.add-item-form__header {
+.add-task-form__header {
   grid-column: 1 / 3;
   margin-bottom: 24px;
 }
 
-.add-item-form__label {
+.add-task-form__label {
   justify-self: end;
 }

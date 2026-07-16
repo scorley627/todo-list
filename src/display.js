@@ -6,96 +6,111 @@ export function showList() {
   const listHeader = document.createElement("h2");
 
   listHeader.textContent = todoList.title;
+  listHeader.classList.add("todo-list__header");
   listElement.appendChild(listHeader);
   listElement.classList.add("todo-list");
 
   for (const task of todoList.tasks) {
-    const itemElement = document.createElement("li");
-    const itemCheckbox = document.createElement("input");
-    const itemText = document.createElement("div");
-    const itemHeader = document.createElement("h3");
-    const itemParagraph = document.createElement("p");
-    const itemTrashImage = document.createElement("img");
+    const listItem = document.createElement("li");
+    const checkbox = document.createElement("input");
+    const text = document.createElement("div");
+    const title = document.createElement("h3");
+    const description = document.createElement("p");
+    const date = document.createElement("p");
+    const trashImage = document.createElement("img");
 
-    itemCheckbox.type = "checkbox";
-    itemHeader.textContent = task.title;
-    itemParagraph.textContent = task.description;
-    itemTrashImage.src = trashIcon;
-    itemTrashImage.dataset.itemId = task.id;
+    checkbox.type = "checkbox";
+    title.textContent = task.title;
+    description.textContent = task.description;
+    date.textContent = task.date.toDateString();
+    trashImage.src = trashIcon;
+    trashImage.dataset.itemId = task.id;
 
-    itemElement.classList.add("todo-item");
-    itemText.classList.add("todo-item__text");
-    itemParagraph.classList.add("todo-item__description");
-    itemTrashImage.classList.add("todo-item__trash-icon");
-    itemTrashImage.addEventListener("click", handleDeleteItemClick);
+    listItem.classList.add("task");
+    if (task.priority == 2) {
+      listItem.classList.add("task--medium-priority");
+    } else if (task.priority == 3) {
+      listItem.classList.add("task--high-priority");
+    }
 
-    itemText.appendChild(itemHeader);
-    itemText.appendChild(itemParagraph);
+    text.classList.add("task__text");
+    description.classList.add("task__description");
+    date.classList.add("task__date");
+    trashImage.classList.add("task__trash-icon");
+    trashImage.addEventListener("click", handleDeleteTaskClick);
 
-    itemElement.appendChild(itemCheckbox);
-    itemElement.appendChild(itemText);
-    itemElement.appendChild(itemTrashImage);
-    listElement.appendChild(itemElement);
+    text.appendChild(title);
+    text.appendChild(description);
+
+    listItem.appendChild(checkbox);
+    listItem.appendChild(text);
+    listItem.appendChild(date);
+    listItem.appendChild(trashImage);
+    listElement.appendChild(listItem);
   }
 
-  const addItemElement = document.createElement("li");
-  const addItemButton = document.createElement("button");
-  const addItemHeader = document.createElement("h3");
+  const addTaskElement = document.createElement("li");
+  const addTaskButton = document.createElement("button");
+  const addTaskHeader = document.createElement("h3");
 
-  addItemButton.textContent = "+";
-  addItemHeader.textContent = "Add task";
+  addTaskButton.textContent = "+";
+  addTaskHeader.textContent = "Add task";
 
-  addItemElement.classList.add("todo-item");
-  addItemButton.classList.add("todo-item__add-button");
-  addItemHeader.classList.add("todo-item__text");
-  addItemHeader.classList.add("todo-item__text--add");
+  addTaskElement.classList.add("task");
+  addTaskButton.classList.add("task__add-button");
+  addTaskHeader.classList.add("task__text");
+  addTaskHeader.classList.add("task__text--add");
 
-  addItemElement.appendChild(addItemButton);
-  addItemElement.appendChild(addItemHeader);
-  addItemElement.addEventListener("click", handleAddItemClick);
+  addTaskElement.appendChild(addTaskButton);
+  addTaskElement.appendChild(addTaskHeader);
+  addTaskElement.addEventListener("click", handleAddTaskClick);
 
-  listElement.appendChild(addItemElement);
+  listElement.appendChild(addTaskElement);
   const content = document.querySelector(".content");
   content.replaceChildren(listElement);
 }
 
-function handleAddItemClick(event) {
-  const isButton = event.target.classList.contains("todo-item__add-button");
-  const isTitle = event.target.classList.contains("todo-item__text--add");
+function handleAddTaskClick(event) {
+  const isButton = event.target.classList.contains("task__add-button");
+  const isTitle = event.target.classList.contains("task__text--add");
   if (isButton || isTitle) {
-    addItemDialog.showModal();
+    addTaskDialog.showModal();
   }
 }
 
 function handleAddFormSubmit(event) {
   event.preventDefault();
-  addItemDialog.close();
+  addTaskDialog.close();
 
   const formData = new FormData(event.target);
-  const title = formData.get("new_item_title");
-  const description = formData.get("new_item_description");
-  const date = formData.get("new_item_date");
+  const title = formData.get("new_task_title");
+  const description = formData.get("new_task_description");
+  const date = new Date(formData.get("new_task_date").replaceAll("-", "/"));
+  const priority = formData.get("new_task_priority");
   event.target.reset();
 
-  todoList.addNewTask(title, description, date);
+  todoList.addNewTask(title, description, date, priority);
   showList();
 }
 
 function handleCloseDialogClick(event) {
-  addItemDialog.close();
+  addTaskDialog.close();
 }
 
-function handleDeleteItemClick(event) {
+function handleDeleteTaskClick(event) {
   todoList.removeTask(event.target.dataset.itemId);
   showList();
 }
 
-const addItemDialog = document.querySelector(".add-item-dialog");
+const addTaskDialog = document.querySelector(".add-task-dialog");
 
 const dialogCloseButton = document.querySelector(
-  ".add-item-dialog__close-button",
+  ".add-task-dialog__close-button",
 );
 dialogCloseButton.addEventListener("click", handleCloseDialogClick);
 
-const addItemForm = document.querySelector(".add-item-form");
-addItemForm.addEventListener("submit", handleAddFormSubmit);
+const addTaskForm = document.querySelector(".add-task-form");
+addTaskForm.addEventListener("submit", handleAddFormSubmit);
+
+const addTaskFormDate = document.getElementById("new_task_date");
+addTaskFormDate.defaultValue = new Date().toLocaleDateString("fr-CA");
