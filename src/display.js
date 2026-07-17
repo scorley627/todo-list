@@ -49,24 +49,6 @@ export function addTaskItem(projectId, task, taskIndex) {
   }
 }
 
-export function removeTaskItem(projectId, taskId) {
-  const taskLists = document.querySelector(".project-list").children;
-  let i = 0;
-  while (i < taskLists.length && taskLists[i].dataset.projectId != projectId) {
-    ++i;
-  }
-  if (i < taskLists.length) {
-    const taskItems = taskLists[i].children;
-    let j = 0;
-    while (j < taskItems.length && taskItems[j].dataset.taskId != taskId) {
-      ++j;
-    }
-    if (j < taskItems.length) {
-      taskItems[j].remove();
-    }
-  }
-}
-
 function createTaskItem(task) {
   const taskItem = document.createElement("li");
   const checkbox = document.createElement("input");
