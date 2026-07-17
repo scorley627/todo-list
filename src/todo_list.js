@@ -24,10 +24,7 @@ export default class Project {
   }
 
   removeTask(id) {
-    let i = 0;
-    while (i < this.tasks.length && this.tasks[i].id != id) {
-      ++i;
-    }
+    const i = this.tasks.findIndex((task) => task.id == id);
     this.tasks.splice(i, 1);
   }
 }
