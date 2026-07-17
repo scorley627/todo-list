@@ -59,7 +59,8 @@ function handleAddFormSubmit(event) {
   const priority = formData.get("new_task_priority");
   event.target.reset();
 
-  const project = getProjectById(projects, addTaskDialog.dataset.projectId);
+  const projectId = addTaskDialog.dataset.projectId;
+  const project = projects.find((project) => project.id == projectId);
   const taskIndex = project.addNewTask(title, description, date, priority);
   const task = project.tasks[taskIndex];
   addTaskItem(project.id, task, taskIndex);
