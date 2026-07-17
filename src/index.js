@@ -42,7 +42,7 @@ function handleListClick(event) {
     const taskList = taskItem.parentNode;
     const taskId = taskItem.dataset.taskId;
     const projectId = taskList.dataset.projectId;
-    const project = Project.getProjectById(projects, projectId);
+    const project = projects.find((project) => project.id == projectId);
     project.removeTask(taskId);
     taskItem.remove();
   }

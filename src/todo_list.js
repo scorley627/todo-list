@@ -30,19 +30,6 @@ export default class Project {
     }
     this.tasks.splice(i, 1);
   }
-
-  static getProjectById(projects, id) {
-    if (projects.length == 0) {
-      return;
-    }
-    let i = 0;
-    while (i < projects.length && projects[i].id != id) {
-      ++i;
-    }
-    if (i < projects.length) {
-      return projects[i];
-    }
-  }
 }
 
 function createTask(title, description, date, priority) {
