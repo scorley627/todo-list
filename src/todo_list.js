@@ -1,11 +1,13 @@
-export const todoList = {
-  tasks: [],
-  title: "",
+export class Project {
+  constructor(title) {
+    this.title = title;
+    this.tasks = [];
+    this.id = crypto.randomUUID();
+  }
 
-  addNewTask: function (title, description, date, priority) {
+  addNewTask(title, description, date, priority) {
     const newTask = createTask(title, description, date, priority);
     let i = 0;
-    // console.log(newTask.priority);
     while (i < this.tasks.length && newTask.priority < this.tasks[i].priority) {
       ++i;
     }
@@ -17,16 +19,31 @@ export const todoList = {
       ++i;
     }
     this.tasks.splice(i, 0, newTask);
-  },
 
-  removeTask: function (id) {
+    return i;
+  }
+
+  removeTask(id) {
     let i = 0;
-    while (this.tasks[i].id != id) {
+    while (i < this.tasks.length && this.tasks[i].id != id) {
       ++i;
     }
     this.tasks.splice(i, 1);
-  },
-};
+  }
+}
+
+export function getProjectById(projects, id) {
+  if (projects.length == 0) {
+    return;
+  }
+  let i = 0;
+  while (i < projects.length && projects[i].id != id) {
+    ++i;
+  }
+  if (i < projects.length) {
+    return projects[i];
+  }
+}
 
 function createTask(title, description, date, priority) {
   return {
