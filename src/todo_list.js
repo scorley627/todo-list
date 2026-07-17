@@ -1,4 +1,4 @@
-export class Project {
+export default class Project {
   constructor(title) {
     this.title = title;
     this.tasks = [];
@@ -30,18 +30,18 @@ export class Project {
     }
     this.tasks.splice(i, 1);
   }
-}
 
-export function getProjectById(projects, id) {
-  if (projects.length == 0) {
-    return;
-  }
-  let i = 0;
-  while (i < projects.length && projects[i].id != id) {
-    ++i;
-  }
-  if (i < projects.length) {
-    return projects[i];
+  static getProjectById(projects, id) {
+    if (projects.length == 0) {
+      return;
+    }
+    let i = 0;
+    while (i < projects.length && projects[i].id != id) {
+      ++i;
+    }
+    if (i < projects.length) {
+      return projects[i];
+    }
   }
 }
 

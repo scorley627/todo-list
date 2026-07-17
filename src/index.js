@@ -1,6 +1,6 @@
 import "./style.css";
 import { populateProjectList, addTaskItem, removeTaskItem } from "./display.js";
-import { Project, getProjectById } from "./todo_list.js";
+import Project from "./todo_list.js";
 
 const projectList = document.querySelector(".project-list");
 const addTaskForm = document.querySelector(".add-task-form");
@@ -42,7 +42,7 @@ function handleListClick(event) {
     const taskList = taskItem.parentNode;
     const taskId = taskItem.dataset.taskId;
     const projectId = taskList.dataset.projectId;
-    const project = getProjectById(projects, projectId);
+    const project = Project.getProjectById(projects, projectId);
     project.removeTask(taskId);
     removeTaskItem(projectId, taskId);
   }
