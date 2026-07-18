@@ -25,7 +25,9 @@ export default class Project {
 
   removeTask(id) {
     const i = this.tasks.findIndex((task) => task.id == id);
-    this.tasks.splice(i, 1);
+    if (i != -1) {
+      this.tasks.splice(i, 1);
+    }
   }
 }
 
