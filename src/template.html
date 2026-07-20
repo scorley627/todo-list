@@ -6,6 +6,17 @@
   <title>Todo List</title>
 </head>
 <body>
+  <dialog class="add-project-dialog">
+    <form class="add-project-form" autocomplete="off">
+      <h1 class="add-project-form__header">New Project</h1>
+      <label for="new_project_title">Title:</label>
+      <input type="text" id="new_project_title" name="new_project_title"
+        required>
+      <button class="add-project-dialog__submit-button" type="submit">Create
+        Project</button>
+    </form>
+    <button class="add-project-dialog__close-button">X</button>
+  </dialog>
   <dialog class="add-task-dialog">
     <form class="add-task-form" autocomplete="off">
       <h1 class="add-task-form__header">New Task</h1>
@@ -33,19 +44,8 @@
     </form>
     <button class="add-task-dialog__close-button">X</button>
   </dialog>
-  <dialog class="add-project-dialog">
-    <form class="add-project-form" autocomplete="off">
-      <h1 class="add-project-form__header">New Project</h1>
-      <label for="new_project_title">Title:</label>
-      <input type="text" id="new_project_title" name="new_project_title"
-        required>
-      <button class="add-project-dialog__submit-button" type="submit">Create
-        Project</button>
-    </form>
-    <button class="add-project-dialog__close-button">X</button>
-  </dialog>
   <div class="content">
-    <button class="new-project-button">New Project</button>
+    <button class="add-project-button">New Project</button>
     <ul class="project-list"></ul>
   </div>
 </body>

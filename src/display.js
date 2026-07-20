@@ -1,39 +1,19 @@
 import trashIcon from "./trash_icon.svg";
 
-export function populateProjectList(projectList, projects) {
+export function populateProjectList(projects) {
   for (const project of projects) {
-    const taskList = document.createElement("ul");
-    const projectHeader = document.createElement("h2");
-
-    projectHeader.textContent = project.title;
-    projectHeader.classList.add("project-header");
-    taskList.dataset.projectId = project.id;
-    taskList.classList.add("project");
-
-    for (const task of project.tasks) {
-      const taskItem = createTaskItem(task);
-      taskList.appendChild(taskItem);
-    }
-
-    const addTaskElement = document.createElement("li");
-    const addTaskButton = document.createElement("button");
-    const addTaskHeader = document.createElement("h3");
-
-    addTaskButton.textContent = "+";
-    addTaskHeader.textContent = "Add task";
-
-    addTaskElement.classList.add("task");
-    addTaskButton.classList.add("task__add-button");
-    addTaskHeader.classList.add("task__text");
-    addTaskHeader.classList.add("task__text--add");
-
-    addTaskElement.appendChild(addTaskButton);
-    addTaskElement.appendChild(addTaskHeader);
-
-    taskList.appendChild(addTaskElement);
-    projectList.appendChild(projectHeader);
-    projectList.appendChild(taskList);
+    addTodoList(project);
   }
+}
+
+export function addTodoList(project) {
+  const projectList = document.querySelector(".project-list");
+  const todoList = createTodoList(project);
+  const projectHeader = document.createElement("h2");
+  projectHeader.textContent = project.title;
+  projectHeader.classList.add("project-header");
+  projectList.appendChild(projectHeader);
+  projectList.appendChild(todoList);
 }
 
 export function addTaskItem(projectId, task, taskIndex) {
@@ -47,6 +27,35 @@ export function addTaskItem(projectId, task, taskIndex) {
     const nextTaskItem = taskLists[i].children[taskIndex];
     taskLists[i].insertBefore(newTaskItem, nextTaskItem);
   }
+}
+
+function createTodoList(project) {
+  const todoList = document.createElement("ul");
+  todoList.dataset.projectId = project.id;
+  todoList.classList.add("project");
+
+  for (const task of project.tasks) {
+    const taskItem = createTaskItem(task);
+    todoList.appendChild(taskItem);
+  }
+
+  const addTaskElement = document.createElement("li");
+  const addTaskButton = document.createElement("button");
+  const addTaskHeader = document.createElement("h3");
+
+  addTaskButton.textContent = "+";
+  addTaskHeader.textContent = "Add task";
+
+  addTaskElement.classList.add("task");
+  addTaskButton.classList.add("task__add-button");
+  addTaskHeader.classList.add("task__text");
+  addTaskHeader.classList.add("task__text--add");
+
+  addTaskElement.appendChild(addTaskButton);
+  addTaskElement.appendChild(addTaskHeader);
+  todoList.appendChild(addTaskElement);
+
+  return todoList;
 }
 
 function createTaskItem(task) {
