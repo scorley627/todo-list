@@ -3,16 +3,23 @@ import { populateProjectList, addTaskItem } from "./display.js";
 import Project from "./todo_list.js";
 
 const projectList = document.querySelector(".project-list");
+const newProjectButton = document.querySelector(".new-project-button");
+const addProjectDialog = document.querySelector(".add-project-dialog");
+const addProjectCloseButton = document.querySelector(
+  ".add-project-dialog__close-button",
+);
 const addTaskForm = document.querySelector(".add-task-form");
 const addTaskFormDate = document.getElementById("new_task_date");
 const addTaskDialog = document.querySelector(".add-task-dialog");
-const dialogCloseButton = document.querySelector(
+const addTaskCloseButton = document.querySelector(
   ".add-task-dialog__close-button",
 );
 
 projectList.addEventListener("click", handleListClick);
+newProjectButton.addEventListener("click", handleNewProjectClick);
+addProjectCloseButton.addEventListener("click", handelCloseAddProjectClick);
 addTaskForm.addEventListener("submit", handleAddFormSubmit);
-dialogCloseButton.addEventListener("click", handleCloseDialogClick);
+addTaskCloseButton.addEventListener("click", handleCloseAddTaskClick);
 addTaskFormDate.defaultValue = new Date().toLocaleDateString("fr-CA");
 
 const initialProject0 = new Project("Project 1");
@@ -28,6 +35,10 @@ initialProject1.addNewTask("Task", "", new Date("2026/9/2"), 3);
 initialProject1.addNewTask("Task", "", new Date("2027/1/9"), 2);
 
 populateProjectList(projectList, projects);
+
+function handleNewProjectClick(event) {
+  addProjectDialog.showModal();
+}
 
 function handleListClick(event) {
   const isAddButton = event.target.classList.contains("task__add-button");
@@ -66,6 +77,10 @@ function handleAddFormSubmit(event) {
   addTaskItem(project.id, task, taskIndex);
 }
 
-function handleCloseDialogClick(event) {
+function handelCloseAddProjectClick(event) {
+  addProjectDialog.close();
+}
+
+function handleCloseAddTaskClick(event) {
   addTaskDialog.close();
 }
