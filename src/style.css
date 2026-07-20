@@ -3,7 +3,7 @@
   padding: 0;
 }
 
-.add-project-button {
+.project-add-button {
   margin: 30px 50px 0px;
   background-color: rgb(0, 179, 0);
   font-size: 1.2em;
@@ -15,12 +15,26 @@
 }
 
 .project-header {
-  margin: 30px 40px 8px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.project-remove-button {
+  display: inline-block;
+  position: relative;
+  bottom: 2px;
+  margin-left: 12px;
+  background-color: red;
+  font-size: 1em;
+  font-weight: bold;
+  width: 140px;
+  height: 28px;
+  border: none;
+  border-radius: 20px;
 }
 
 .project {
-  margin-inline: 40px;
-  display: grid;
+  margin: 30px 40px;
 }
 
 .task {
@@ -69,35 +83,35 @@
   bottom: 5px;
 }
 
-.add-project-dialog,
-.add-task-dialog {
+.project-dialog,
+.task-dialog {
   position: fixed;
   border: none;
   outline: none;
   border-radius: 25px;
 }
 
-.add-project-dialog {
+.project-dialog {
   width: 350px;
   height: 220px;
   top: calc(50% - 110px);
   left: calc(50% - 175px);
 }
 
-.add-task-dialog {
+.task-dialog {
   width: 600px;
   height: 300px;
   top: calc(50% - 150px);
   left: calc(50% - 300px);
 }
 
-.add-project-dialog::backdrop,
-.add-task-dialog::backdrop {
+.project-dialog::backdrop,
+.task-dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
-.add-project-dialog__close-button,
-.add-task-dialog__close-button {
+.project-dialog__close-button,
+.task-dialog__close-button {
   background-color: inherit;
   position: absolute;
   top: 16px;
@@ -107,8 +121,8 @@
   color: gray;
 }
 
-.add-project-dialog__submit-button,
-.add-task-dialog__submit-button {
+.project-dialog__submit-button,
+.task-dialog__submit-button {
   background-color: rgb(0, 179, 0);
   position: absolute;
   bottom: 32px;
@@ -121,20 +135,20 @@
   border-radius: 10px;
 }
 
-.add-project-form,
-.add-task-form {
+.project-form,
+.task-form {
   padding: 32px 24px;
   display: grid;
   grid-template-columns: min-content 1fr;
   gap: 12px;
 }
 
-.add-project-form__header,
-.add-task-form__header {
+.project-form__header,
+.task-form__header {
   grid-column: 1 / 3;
   margin-bottom: 16px;
 }
 
-.add-task-form__label {
+.task-form__label {
   justify-self: end;
 }

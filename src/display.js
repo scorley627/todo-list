@@ -9,34 +9,40 @@ export function populateProjectList(projects) {
 export function addTodoList(project) {
   const projectList = document.querySelector(".project-list");
   const todoList = createTodoList(project);
-  const projectHeader = document.createElement("h2");
-  projectHeader.textContent = project.title;
-  projectHeader.classList.add("project-header");
-  projectList.appendChild(projectHeader);
   projectList.appendChild(todoList);
 }
 
 export function addTaskItem(projectId, task, taskIndex) {
-  const taskLists = document.querySelector(".project-list").children;
+  const todoLists = document.querySelector(".project-list").children;
   let i = 0;
-  while (i < taskLists.length && taskLists[i].dataset.projectId != projectId) {
+  while (i < todoLists.length && todoLists[i].dataset.projectId != projectId) {
     ++i;
   }
-  if (i < taskLists.length) {
+  if (i < todoLists.length) {
+    const listElement = todoLists[i].lastChild;
     const newTaskItem = createTaskItem(task);
-    const nextTaskItem = taskLists[i].children[taskIndex];
-    taskLists[i].insertBefore(newTaskItem, nextTaskItem);
+    const nextTaskItem = listElement.children[taskIndex];
+    listElement.insertBefore(newTaskItem, nextTaskItem);
   }
 }
 
 function createTodoList(project) {
-  const todoList = document.createElement("ul");
+  const todoList = document.createElement("div");
   todoList.dataset.projectId = project.id;
   todoList.classList.add("project");
 
+  const projectHeader = document.createElement("h2");
+  projectHeader.textContent = project.title;
+  projectHeader.classList.add("project-header");
+
+  const removeButton = document.createElement("button");
+  removeButton.textContent = "Remove Project";
+  removeButton.classList.add("project-remove-button");
+
+  const listElement = document.createElement("ul");
   for (const task of project.tasks) {
     const taskItem = createTaskItem(task);
-    todoList.appendChild(taskItem);
+    listElement.appendChild(taskItem);
   }
 
   const addTaskElement = document.createElement("li");
@@ -53,7 +59,11 @@ function createTodoList(project) {
 
   addTaskElement.appendChild(addTaskButton);
   addTaskElement.appendChild(addTaskHeader);
-  todoList.appendChild(addTaskElement);
+  listElement.appendChild(addTaskElement);
+
+  todoList.appendChild(projectHeader);
+  todoList.appendChild(removeButton);
+  todoList.appendChild(listElement);
 
   return todoList;
 }
