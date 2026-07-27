@@ -2,29 +2,13 @@ import "./style.css";
 import { populateProjectList, addTaskItem, addTodoList } from "./display.js";
 import Project from "./todo_list.js";
 
-const projectList = document.querySelector(".project-list");
-const projectAddButton = document.querySelector(".project-add-button");
-const projectForm = document.querySelector(".project-form");
 const projectDialog = document.querySelector(".project-dialog");
-const projectDialogCloseButton = document.querySelector(
-  ".project-dialog__close-button",
-);
-const taskForm = document.querySelector(".task-form");
-const taskFormDate = document.getElementById("new_task_date");
 const taskDialog = document.querySelector(".task-dialog");
-const taskDialogCloseButton = document.querySelector(
-  ".task-dialog__close-button",
-);
 
-projectList.addEventListener("click", handleProjectListClick);
-projectAddButton.addEventListener("click", handleProjectAddButtonClick);
-projectForm.addEventListener("submit", handleProjectFormSubmit);
-projectDialogCloseButton.addEventListener(
-  "click",
-  handleCloseProjectDialogClick,
-);
-taskForm.addEventListener("submit", handleTaskFormSubmit);
-taskDialogCloseButton.addEventListener("click", handleCloseTaskDialogClick);
+document.body.addEventListener("click", handleClick);
+document.body.addEventListener("submit", handleSubmit);
+
+const taskFormDate = document.getElementById("new_task_date");
 taskFormDate.defaultValue = new Date().toLocaleDateString("fr-CA");
 
 const initialProject0 = new Project("Project 1");
@@ -41,34 +25,54 @@ initialProject1.addNewTask("Task", "", new Date("2027/1/9"), 2);
 
 populateProjectList(projects);
 
-function handleProjectListClick(event) {
-  const isAddButton = event.target.classList.contains("task__add-button");
-  const isAddText = event.target.classList.contains("task__text--add");
-  const isTrashButton = event.target.classList.contains("task__trash-icon");
-  const isRemoveProject = event.target.classList.contains(
+function handleClick(event) {
+  const isProjectRemove = event.target.classList.contains(
     "project-remove-button",
   );
-  if (isAddButton || isAddText) {
-    const todoList = event.target.parentNode.parentNode.parentNode;
-    taskDialog.dataset.projectId = todoList.dataset.projectId;
-    taskDialog.showModal();
-  } else if (isTrashButton) {
-    const taskItem = event.target.parentNode;
-    const todoList = taskItem.parentNode.parentNode;
-    const taskId = taskItem.dataset.taskId;
-    const projectId = todoList.dataset.projectId;
-    const project = projects.find((project) => project.id == projectId);
-    project.removeTask(taskId);
-    taskItem.remove();
-  } else if (isRemoveProject) {
-    const todoList = event.target.parentNode;
-    const projectId = todoList.dataset.projectId;
-    const index = projects.find((project) => project.id == projectId);
-    if (index != -1) {
-      projects.splice(index, 1);
-    }
-    todoList.remove();
+  const isProjectAdd = event.target.classList.contains("project-add-button");
+  const isProjectDialogClose = event.target.classList.contains(
+    "project-dialog__close-button",
+  );
+  const isTaskRemove = event.target.classList.contains("task__trash-icon");
+  const isTaskAdd =
+    event.target.classList.contains("task__add-button") ||
+    event.target.classList.contains("task__text--add");
+  const isTaskDialogClose = event.target.classList.contains(
+    "task-dialog__close-button",
+  );
+  if (isProjectRemove) {
+    handleProjectRemoveClick(event);
+  } else if (isProjectAdd) {
+    handleProjectAddClick(event);
+  } else if (isProjectDialogClose) {
+    handleProjectDialogCloseClick();
+  } else if (isTaskRemove) {
+    handleTaskRemoveClick(event);
+  } else if (isTaskAdd) {
+    handleTaskAddClick(event);
+  } else if (isTaskDialogClose) {
+    handleTaskDialogCloseClick();
   }
+}
+
+function handleSubmit(event) {
+  const isProjectForm = event.target.classList.contains("project-form");
+  const isTaskForm = event.target.classList.contains("task-form");
+  if (isProjectForm) {
+    handleProjectFormSubmit(event);
+  } else if (isTaskForm) {
+    handleTaskFormSubmit(event);
+  }
+}
+
+function handleProjectRemoveClick(event) {
+  const todoList = event.target.parentNode;
+  const projectId = todoList.dataset.projectId;
+  const index = projects.findIndex((project) => project.id === projectId);
+  if (index !== -1) {
+    projects.splice(index, 1);
+  }
+  todoList.remove();
 }
 
 function handleProjectFormSubmit(event) {
@@ -84,12 +88,29 @@ function handleProjectFormSubmit(event) {
   addTodoList(newProject);
 }
 
-function handleProjectAddButtonClick(event) {
+function handleProjectAddClick() {
   projectDialog.showModal();
 }
 
-function handleCloseProjectDialogClick(event) {
+function handleProjectDialogCloseClick() {
   projectDialog.close();
+  projectDialog.firstElementChild.reset();
+}
+
+function handleTaskRemoveClick(event) {
+  const taskItem = event.target.parentNode;
+  const todoList = taskItem.parentNode.parentNode;
+  const taskId = taskItem.dataset.taskId;
+  const projectId = todoList.dataset.projectId;
+  const project = projects.find((project) => project.id === projectId);
+  project.removeTask(taskId);
+  taskItem.remove();
+}
+
+function handleTaskAddClick(event) {
+  const todoList = event.target.parentNode.parentNode.parentNode;
+  taskDialog.dataset.projectId = todoList.dataset.projectId;
+  taskDialog.showModal();
 }
 
 function handleTaskFormSubmit(event) {
@@ -100,16 +121,17 @@ function handleTaskFormSubmit(event) {
   const title = formData.get("new_task_title");
   const description = formData.get("new_task_description");
   const date = new Date(formData.get("new_task_date").replaceAll("-", "/"));
-  const priority = formData.get("new_task_priority");
+  const priority = Number(formData.get("new_task_priority"));
   event.target.reset();
 
   const projectId = taskDialog.dataset.projectId;
-  const project = projects.find((project) => project.id == projectId);
+  const project = projects.find((project) => project.id === projectId);
   const taskIndex = project.addNewTask(title, description, date, priority);
   const task = project.tasks[taskIndex];
   addTaskItem(project.id, task, taskIndex);
 }
 
-function handleCloseTaskDialogClick(event) {
+function handleTaskDialogCloseClick() {
   taskDialog.close();
+  taskDialog.firstElementChild.reset();
 }

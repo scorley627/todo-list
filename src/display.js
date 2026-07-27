@@ -15,7 +15,7 @@ export function addTodoList(project) {
 export function addTaskItem(projectId, task, taskIndex) {
   const todoLists = document.querySelector(".project-list").children;
   let i = 0;
-  while (i < todoLists.length && todoLists[i].dataset.projectId != projectId) {
+  while (i < todoLists.length && todoLists[i].dataset.projectId !== projectId) {
     ++i;
   }
   if (i < todoLists.length) {
@@ -81,13 +81,13 @@ function createTaskItem(task) {
   title.textContent = task.title;
   description.textContent = task.description;
   date.textContent = task.date.toDateString();
-  trashImage.src = trashIcon;
+  trashImage.src = String(trashIcon);
   taskItem.dataset.taskId = task.id;
 
   taskItem.classList.add("task");
-  if (task.priority == 2) {
+  if (task.priority === 2) {
     taskItem.classList.add("task--medium-priority");
-  } else if (task.priority == 3) {
+  } else if (task.priority === 3) {
     taskItem.classList.add("task--high-priority");
   }
   text.classList.add("task__text");

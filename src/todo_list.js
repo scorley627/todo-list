@@ -14,7 +14,7 @@ export default class Project {
     while (
       i < this.tasks.length &&
       newTask.date > this.tasks[i].date &&
-      newTask.priority == this.tasks[i].priority
+      newTask.priority === this.tasks[i].priority
     ) {
       ++i;
     }
@@ -24,8 +24,8 @@ export default class Project {
   }
 
   removeTask(id) {
-    const i = this.tasks.findIndex((task) => task.id == id);
-    if (i != -1) {
+    const i = this.tasks.findIndex((task) => task.id === id);
+    if (i !== -1) {
       this.tasks.splice(i, 1);
     }
   }

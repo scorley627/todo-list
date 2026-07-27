@@ -27,18 +27,20 @@
       <input type="text" id="new_task_description" name="new_task_description">
       <label class="task-form__label" for="new_task_date">Date:</label>
       <input type="date" id="new_task_date" name="new_task_date">
-      <legend class="task-form__label">Priority:</legend>
-      <div class="task-form__radio-buttons">
-        <input type="radio" id="new_task_priority_1" name="new_task_priority"
-          value="1" checked>
-        <label for="new_task_priority_1">Low</label>
-        <input type="radio" id="new_task_priority_2" name="new_task_priority"
-          value="2">
-        <label for="new_task_priority_2">Medium</label>
-        <input type="radio" id="new_task_priority_3" name="new_task_priority"
-          value="3">
-        <label for="new_task_priority_3">High</label>
-      </div>
+      <fieldset class="task-form__priority-fieldset">
+        <legend class="task-form__label">Priority:</legend>
+        <div>
+          <input type="radio" id="new_task_priority_1" name="new_task_priority"
+            value="1" checked>
+          <label for="new_task_priority_1">Low</label>
+          <input type="radio" id="new_task_priority_2" name="new_task_priority"
+            value="2">
+          <label for="new_task_priority_2">Medium</label>
+          <input type="radio" id="new_task_priority_3" name="new_task_priority"
+            value="3">
+          <label for="new_task_priority_3">High</label>
+        </div>
+      </fieldset>
       <button class="task-dialog__submit-button" type="submit">Create task
       </button>
     </form>
