@@ -11,17 +11,34 @@ document.body.addEventListener("submit", handleSubmit);
 const taskFormDate = document.getElementById("new_task_date");
 taskFormDate.defaultValue = new Date().toLocaleDateString("fr-CA");
 
-const initialProject0 = new Project("Project 1");
-const initialProject1 = new Project("Project 2");
-const projects = [initialProject0, initialProject1];
+if (!localStorage.getItem("projectList")) {
+  const initialProject0 = new Project("Project 1");
+  const initialProject1 = new Project("Project 2");
+  const projects = [initialProject0, initialProject1];
 
-initialProject0.addNewTask("Task", "", new Date("2026/11/4"), 2);
-initialProject0.addNewTask("Task", "", new Date("2026/10/20"), 3);
-initialProject0.addNewTask("Task", "", new Date("2026/9/15"), 1);
+  initialProject0.addNewTask("Task", "", new Date("2026/11/4"), 2);
+  initialProject0.addNewTask("Task", "", new Date("2026/10/20"), 3);
+  initialProject0.addNewTask("Task", "", new Date("2026/9/15"), 1);
 
-initialProject1.addNewTask("Task", "", new Date("2026/10/30"), 1);
-initialProject1.addNewTask("Task", "", new Date("2026/9/2"), 3);
-initialProject1.addNewTask("Task", "", new Date("2027/1/9"), 2);
+  initialProject1.addNewTask("Task", "", new Date("2026/10/30"), 1);
+  initialProject1.addNewTask("Task", "", new Date("2026/9/2"), 3);
+  initialProject1.addNewTask("Task", "", new Date("2027/1/9"), 2);
+
+  localStorage.setItem("projectList", JSON.stringify(projects));
+}
+
+const projects = JSON.parse(
+  localStorage.getItem("projectList"),
+  (key, value) => {
+    if (key === "date") {
+      return new Date(value);
+    } else if (typeof value === "object" && value.$type === "Project") {
+      return new Project(value.title, value.tasks, value.id);
+    } else {
+      return value;
+    }
+  },
+);
 
 populateProjectList(projects);
 
@@ -71,8 +88,9 @@ function handleProjectRemoveClick(event) {
   const index = projects.findIndex((project) => project.id === projectId);
   if (index !== -1) {
     projects.splice(index, 1);
+    todoList.remove();
+    localStorage.setItem("projectList", JSON.stringify(projects));
   }
-  todoList.remove();
 }
 
 function handleProjectFormSubmit(event) {
@@ -86,6 +104,7 @@ function handleProjectFormSubmit(event) {
   const newProject = new Project(title);
   projects.push(newProject);
   addTodoList(newProject);
+  localStorage.setItem("projectList", JSON.stringify(projects));
 }
 
 function handleProjectAddClick() {
@@ -105,6 +124,7 @@ function handleTaskRemoveClick(event) {
   const project = projects.find((project) => project.id === projectId);
   project.removeTask(taskId);
   taskItem.remove();
+  localStorage.setItem("projectList", JSON.stringify(projects));
 }
 
 function handleTaskAddClick(event) {
@@ -129,6 +149,7 @@ function handleTaskFormSubmit(event) {
   const taskIndex = project.addNewTask(title, description, date, priority);
   const task = project.tasks[taskIndex];
   addTaskItem(project.id, task, taskIndex);
+  localStorage.setItem("projectList", JSON.stringify(projects));
 }
 
 function handleTaskDialogCloseClick() {

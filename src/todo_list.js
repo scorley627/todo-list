@@ -1,8 +1,17 @@
 export default class Project {
-  constructor(title) {
+  constructor(title, tasks = [], id = crypto.randomUUID()) {
     this.title = title;
-    this.tasks = [];
-    this.id = crypto.randomUUID();
+    this.tasks = tasks;
+    this.id = id;
+  }
+
+  toJSON() {
+    return {
+      $type: "Project",
+      title: this.title,
+      tasks: this.tasks,
+      id: this.id,
+    };
   }
 
   addNewTask(title, description, date, priority) {
