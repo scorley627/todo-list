@@ -1,3 +1,3 @@
 # todo-list
 
-A todo list to demonstrate OOP concepts.
+A todo list to demonstrate and practice recently learned JavaScript.
